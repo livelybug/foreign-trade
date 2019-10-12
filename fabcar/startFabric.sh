@@ -59,6 +59,10 @@ ORG5_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org5.example.com/
 ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 set -x
 
+#CC_RUNTIME_LANGUAGE=node
+#CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
+chaincode_name=fabcar
+
 echo "Installing smart contract on peer0.org1.example.com"
 docker exec \
   -e CORE_PEER_LOCALMSPID=Org1MSP \
@@ -67,7 +71,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n fabcar \
+    -n "$chaincode_name" \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -80,7 +84,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG2_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n fabcar \
+    -n "$chaincode_name" \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -93,7 +97,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG3_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n fabcar \
+    -n "$chaincode_name" \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -106,7 +110,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG4_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n fabcar \
+    -n "$chaincode_name" \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -119,7 +123,7 @@ docker exec \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG5_TLS_ROOTCERT_FILE} \
   cli \
   peer chaincode install \
-    -n fabcar \
+    -n "$chaincode_name" \
     -v 1.0 \
     -p "$CC_SRC_PATH" \
     -l "$CC_RUNTIME_LANGUAGE"
@@ -132,7 +136,7 @@ docker exec \
   peer chaincode instantiate \
     -o orderer.example.com:7050 \
     -C mychannel \
-    -n fabcar \
+    -n "$chaincode_name" \
     -l "$CC_RUNTIME_LANGUAGE" \
     -v 1.0 \
     -c '{"Args":[]}' \
@@ -154,19 +158,22 @@ docker exec \
   peer chaincode invoke \
     -o orderer.example.com:7050 \
     -C mychannel \
-    -n fabcar \
+    -n "$chaincode_name" \
     -c '{"function":"initLedger","Args":[]}' \
     --waitForEvent \
     --tls \
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.example.com:7051 \
-    --peerAddresses peer1.org1.example.com:8051 \
     --peerAddresses peer0.org2.example.com:9051 \
-    --peerAddresses peer1.org2.example.com:10051 \
-    --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE} \
+    --peerAddresses peer0.org3.example.com:11051 \
+    --peerAddresses peer0.org4.example.com:13051 \
+    --peerAddresses peer0.org5.example.com:15051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE} \
     --tlsRootCertFiles ${ORG2_TLS_ROOTCERT_FILE} \
-    --tlsRootCertFiles ${ORG2_TLS_ROOTCERT_FILE}
+    --tlsRootCertFiles ${ORG3_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG4_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG5_TLS_ROOTCERT_FILE}
+
 set +x
 
 cat <<EOF
