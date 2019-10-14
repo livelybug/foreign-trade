@@ -3,7 +3,7 @@
 ### Version 1
 
 * Orgs: importer, bank, custom, logistic firm, exporter. One peer for each org.
-* Use couchdb as ledger database
+* Use couchdb as state database
 * Install smart contract on each org
 * Test smart contract by query.js
 
