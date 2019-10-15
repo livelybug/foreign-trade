@@ -9,7 +9,7 @@ const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const orgNum = 4;
+const orgNum = 5;
 const caName = 'ca.org' + orgNum + '.example.com';
 const mspId = 'Org' + orgNum + 'MSP';
 const connetionFileName = 'connection-org' + orgNum + '.json';

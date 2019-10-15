@@ -6,6 +6,14 @@
 * Use couchdb as state database
 * Install smart contract on each org
 * Test smart contract by query.js
+* Change the default ca affiliations for org3, org4, and org5.
+
+#### Organization Name Mapping 
+* org1 -> importer, 
+* org2 -> bank
+* org3 -> custom
+* org4 -> logistic
+* org5 -> exporter
 
 ### Version 2
 

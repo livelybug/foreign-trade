@@ -7,7 +7,7 @@
 const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
 const path = require('path');
 
-const orgNum = 4;
+const orgNum = 5;
 const mspId = 'Org' + orgNum + 'MSP';
 const connetionFileName = 'connection-org' + orgNum + '.json';
 const orgName = 'org' + orgNum;
@@ -46,9 +46,9 @@ async function main() {
         const ca = gateway.getClient().getCertificateAuthority();
         const adminIdentity = gateway.getCurrentIdentity();
 
-        // Register the user, enroll the user, and import the new identity into the wallet.
-        // const secret = await ca.register({ affiliation: orgName + '.department1', enrollmentID: userName, role: 'client' }, adminIdentity);
-        const secret = await ca.register({ enrollmentID: userName, role: 'client' }, adminIdentity);
+        // Register the user, enroll the user, and import the new idenity into the wallet.
+        const secret = await ca.register({ affiliation: 'org5-2.department1', enrollmentID: userName, role: 'client' }, adminIdentity);
+        // const secret = await ca.register({ enrollmentID: userName, role: 'client' }, adminIdentity);
         const enrollment = await ca.enroll({ enrollmentID: userName, enrollmentSecret: secret });
         const userIdentity = X509WalletMixin.createIdentity(mspId, enrollment.certificate, enrollment.key.toBytes());
         await wallet.import(userName, userIdentity);
