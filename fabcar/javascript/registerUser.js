@@ -12,7 +12,7 @@ const mspId = 'Org' + orgNum + 'MSP';
 const connetionFileName = 'connection-org' + orgNum + '.json';
 const orgName = 'org' + orgNum;
 
-const userName='user1';
+const userName='user3';
 const ccpPath = path.resolve(__dirname, '..', '..', 'first-network', connetionFileName);
 
 async function main() {
@@ -52,7 +52,7 @@ async function main() {
         const enrollment = await ca.enroll({ enrollmentID: userName, enrollmentSecret: secret });
         const userIdentity = X509WalletMixin.createIdentity(mspId, enrollment.certificate, enrollment.key.toBytes());
         await wallet.import(userName, userIdentity);
-        console.log(`Successfully registered and enrolled admin user ${userName} and imported it into the wallet`);
+        console.log(`Successfully registered and enrolled user ${userName} and imported it into the wallet`);
 
     } catch (error) {
         console.error(`Failed to register user ${userName}: ${error}`);

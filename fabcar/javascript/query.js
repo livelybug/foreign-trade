@@ -7,12 +7,12 @@
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const path = require('path');
 
-const orgNum = 4;
+const orgNum = 5;
 const orgName = 'org' + orgNum;
 const connetionFileName = 'connection-org' + orgNum + '.json';
 const ccpPath = path.resolve(__dirname, '..', '..', 'first-network', connetionFileName);
 
-const userName='user1';
+const userName='user3';
 
 async function main() {
     try {
