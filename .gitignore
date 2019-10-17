@@ -5,3 +5,5 @@ fabcar/javascript-single/node_modules/
 */.idea
 .idea
 first-network/connection-org*
+frontend/my-app/node_modules
+frontend/my-app/public
