@@ -7,3 +7,5 @@ fabcar/javascript-single/node_modules/
 first-network/connection-org*
 frontend/my-app/node_modules
 frontend/my-app/public
+frontend/my-app/temp.log
+frontend/my-app/.idea

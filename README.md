@@ -1,12 +1,19 @@
-## Setup a 5 org Fabric network
+# Setup a 5 org Fabric network
 
-### Version 1
+## Version 1
 
 * Orgs: importer, bank, custom, logistic firm, exporter. One peer for each org.
 * Use couchdb as state database
 * Install smart contract on each org
 * Test smart contract by query.js
-* Change the default ca affiliations for org3, org4, and org5.
+* Change the default ca affiliations for org5.
+
+##### Login
+* Fabric node SDK cannot run in browser, build electron app instead.
+* Read files from zip
+* Import data into memory wallet
+
+##### Register
 
 #### Organization Name Mapping 
 * org1 -> importer, 
