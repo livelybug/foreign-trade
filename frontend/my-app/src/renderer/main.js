@@ -1,7 +1,15 @@
 import Vue from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify';
+import axios from 'axios'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.css'
 
+import App from './App'
+import router from './router'
+import store from './store'
+
+Vue.use(Vuetify)
+if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
+Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 Vue.filter('formatSize', function (size) {
@@ -17,7 +25,10 @@ Vue.filter('formatSize', function (size) {
   return size.toString() + ' B'
 })
 
+/* eslint-disable no-new */
 new Vue({
-  vuetify,
-  render: h => h(App)
+  components: { App },
+  router,
+  store,
+  template: '<App/>'
 }).$mount('#app')

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout
-            text-center
+            align-center
             wrap
     >
       <v-flex xs12>
@@ -13,8 +13,8 @@
         ></v-img>
       </v-flex>
 
-      <v-flex mb-4>
-        <h1 class="display-1 font-weight-bold mb-3">
+      <v-flex mb-4 align-center>
+        <h1 class="display-1 font-weight-bold mb-3 text-xs-center">
           Load Your Certificate
         </h1>
         <div class="container">
@@ -32,15 +32,15 @@
             </div>
           </form>
 
-          <div v-if="isSuccess">
+          <div v-if="isSuccess" align="center" justify="center">
             <h2>Upload certificate successfully.</h2>
             <p>
               <a href="javascript:void(0)" @click="reset()">Upload again</a>
             </p>
           </div>
 
-          <div v-if="isFailed">
-            <h2>Uploaded failed.</h2>
+          <div v-if="isFailed" align="center" justify="center">
+            <h2>Loading failed.</h2>
             <p>
               <a href="javascript:void(0)" @click="reset()">Try again</a>
             </p>
@@ -55,12 +55,13 @@
 
 <script>
   import JsZip from 'jszip'
+  import {loadCerts} from '../lib/LoadCerts'
 
-  const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
+  const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3
 
   export default {
     name: 'app',
-    data() {
+    data () {
       return {
         uploadedFiles: [],
         uploadError: null,
@@ -69,73 +70,75 @@
       }
     },
     computed: {
-      isInitial() {
-        return this.currentStatus === STATUS_INITIAL;
+      isInitial () {
+        return this.currentStatus === STATUS_INITIAL
       },
-      isSaving() {
-        return this.currentStatus === STATUS_SAVING;
+      isSaving () {
+        return this.currentStatus === STATUS_SAVING
       },
-      isSuccess() {
-        return this.currentStatus === STATUS_SUCCESS;
+      isSuccess () {
+        return this.currentStatus === STATUS_SUCCESS
       },
-      isFailed() {
-        return this.currentStatus === STATUS_FAILED;
+      isFailed () {
+        return this.currentStatus === STATUS_FAILED
       }
     },
     methods: {
-      reset() {
-        this.currentStatus = STATUS_INITIAL;
-        this.uploadedFiles = [];
-        this.uploadError = null;
+      reset () {
+        this.currentStatus = STATUS_INITIAL
+        this.uploadedFiles = []
+        this.uploadError = null
       },
-      filesChange(fieldName, fileList) {
-        this.currentStatus = STATUS_SAVING;
+      filesChange (fieldName, fileList) {
+        this.currentStatus = STATUS_SAVING
 
         if (!fileList.length) {
-          this.currentStatus = STATUS_FAILED;
-          return;
+          this.currentStatus = STATUS_FAILED
+          return
         }
 
         Array
-                .from(Array(fileList.length).keys())
-                .map(x => {
-                  console.log(fileList[x]);
-                  this.unzipFile(fileList[x]);
-                });
+          .from(Array(fileList.length).keys())
+          .map(x => {
+            console.log(fileList[x])
+            this.unzipFile(fileList[x])
+          })
 
-        this.currentStatus = STATUS_SUCCESS;
+        this.currentStatus = STATUS_SUCCESS
       },
-      async unzipFile(f) {
-        const that = this;
-        console.log('Unzipping...');
+      async unzipFile (f) {
+        console.log('Unzipping...')
 
-        let zip = null;
-        try{
-          zip = await JsZip.loadAsync(f);
+        let zip = null
+        try {
+          zip = await JsZip.loadAsync(f)
         } catch (e) {
-          console.log("Error reading " + f.name + ": " + e.message);
+          console.error('Error reading ' + f.name + ': ' + e.message)
+          this.currentStatus = STATUS_FAILED
+          this.uploadError = 'Not a zip file!'
+          throw Error('Not a zip file!')
         }
 
-        zip.forEach(function (relativePath, zipEntry) {  // 2) print entries
-          console.log(zipEntry);
-          that.readZipObj(zipEntry);
-        });
-      },
-      async readZipObj(f) {
-        const result = await f.async('text');
-        console.log(result);
+        const ret = await loadCerts(zip)
+        if (ret !== true) {
+          this.currentStatus = STATUS_FAILED
+          this.uploadError = ret
+          throw Error(ret)
+        } else {
+          this.currentStatus = STATUS_SUCCESS
+        }
       }
     },
-    mounted() {
-      this.reset();
-    },
+    mounted () {
+      this.reset()
+    }
   }
-
 </script>
 
-<style lang="scss">
+<style>
   .dropbox {
-    outline: 2px dashed grey; /* the dash box */
+    outline: 2px dashed grey;
+    /* the dash box */
     outline-offset: -10px;
     background: lightcyan;
     color: dimgray;
@@ -146,7 +149,6 @@
     width: 50%;
     margin: auto;
   }
-
   .input-file {
     opacity: 0;
     height: 80px;
@@ -154,14 +156,16 @@
     cursor: pointer;
     width: 100%;
   }
-
   .dropbox:hover {
     background: lightblue;
   }
-
   .dropbox p {
     font-size: 1.2em;
     text-align: center;
     padding: 5px 0;
+  }
+  .center {
+    align: center;
+    justify: center;
   }
 </style>
