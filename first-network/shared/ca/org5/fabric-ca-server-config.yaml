@@ -37,7 +37,7 @@
 #############################################################################
 
 # Version of config file
-version: 1.4.2
+version: 1.4.3
 
 # Server's listening port (default: 7054)
 port: 7054
@@ -243,10 +243,10 @@ ldap:
 # which are always stored in lower case.
 #############################################################################
 affiliations:
-   org5-1:
+   org1:
       - department1
       - department2
-   org5-2:
+   org2:
       - department1
 
 #############################################################################
@@ -318,7 +318,7 @@ csr:
         O: Hyperledger
         OU: Fabric
    hosts:
-     - burt-HP-Laptop-17g-br1xx
+     - 7fe91680a105
      - localhost
    ca:
       expiry: 131400h

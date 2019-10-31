@@ -3,11 +3,12 @@ cd /home/burt/src/blk/foreign-trade-mine/first-network/
 ./byfn.sh down
 docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
+sudo rm -rf ../first-network/shared/ca/*
 
 # fabcar start
 # chaincode in chaincode/fabcar/go
 cd ../fabcar/
-./startFabric.sh javascript &
+./startFabric.sh javascript false &
 
 cd javascript
 rm -rf wallet/

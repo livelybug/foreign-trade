@@ -158,6 +158,13 @@ function networkUp() {
     replacePrivateKey
     generateChannelArtifacts
   fi
+
+  if [ "${TLS_ENABLED_NETWORK}" == "true" ]; then
+    sed -i 's/TLS_ENABLED_NETWORK=false/TLS_ENABLED_NETWORK=true/g' .env
+  else
+    sed -i 's/TLS_ENABLED_NETWORK=true/TLS_ENABLED_NETWORK=false/g' .env
+  fi
+
   COMPOSE_FILES="-f ${COMPOSE_FILE}"
   if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
@@ -572,7 +579,7 @@ else
   exit 1
 fi
 
-while getopts "h?c:t:d:f:s:l:i:o:anv" opt; do
+while getopts "h?c:t:d:f:s:l:i:o:anvb" opt; do
   case "$opt" in
   h | \?)
     printHelp
@@ -610,6 +617,9 @@ while getopts "h?c:t:d:f:s:l:i:o:anv" opt; do
     ;;
   v)
     VERBOSE=true
+    ;;
+  b)
+    TLS_ENABLED_NETWORK=true
     ;;
   esac
 done

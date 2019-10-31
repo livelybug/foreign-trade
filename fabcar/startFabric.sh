@@ -6,6 +6,16 @@
 #
 # Exit on first error
 set -e
+TLS_ENABLED_COMMAND=${2:-true}
+if [ $TLS_ENABLED_COMMAND = true ]; then
+    FABRIC_COMMAND_TLS_OPTION="--tls"
+    FABRIC_NETWORK_TLS_OPTION="-b"
+    echo "TLS is enabled"
+else
+    FABRIC_COMMAND_TLS_OPTION=""
+    FABRIC_NETWORK_TLS_OPTION=""
+    echo "TLS is disabled"
+fi
 
 # don't rewrite paths for Windows Git Bash users
 export MSYS_NO_PATHCONV=1
@@ -36,14 +46,13 @@ else
 	exit 1
 fi
 
-
 # clean the keystore
 rm -rf ./hfc-key-store
 
 # launch network; create channel and join peer to channel
 cd ../first-network
 echo y | ./byfn.sh down
-echo y | ./byfn.sh up -a -n -s couchdb
+echo y | ./byfn.sh up $FABRIC_NETWORK_TLS_OPTION -a -n -s couchdb
 
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
@@ -141,7 +150,7 @@ docker exec \
     -v 1.0 \
     -c '{"Args":[]}' \
     -P "AND('Org1MSP.member','Org2MSP.member')" \
-    --tls \
+    $FABRIC_COMMAND_TLS_OPTION \
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.example.com:7051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
@@ -161,7 +170,7 @@ docker exec \
     -n "$chaincode_name" \
     -c '{"function":"initLedger","Args":[]}' \
     --waitForEvent \
-    --tls \
+    $FABRIC_COMMAND_TLS_OPTION \
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.example.com:7051 \
     --peerAddresses peer0.org2.example.com:9051 \
