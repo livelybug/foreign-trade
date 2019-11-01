@@ -95,7 +95,7 @@ services:
     command: sh -c 'fabric-ca-server start --ca.certfile /etc/hyperledger/fabric-ca-server-config/ca.org5.example.com-cert.pem --ca.keyfile /etc/hyperledger/fabric-ca-server-config/${BYFN_CA5_PRIVATE_KEY} -b admin:adminpw -d'
     volumes:
       - ./crypto-config/peerOrganizations/org5.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
-      - ./shared/ca/org5://etc/hyperledger/fabric-ca-server
+      - ./shared/ca/org5:/etc/hyperledger/fabric-ca-server
     container_name: ca_peerOrg5
     networks:
       - byfn

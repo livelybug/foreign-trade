@@ -3,7 +3,8 @@ cd /home/burt/src/blk/foreign-trade-mine/first-network/
 ./byfn.sh down
 docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
-sudo rm -rf ../first-network/shared/ca/*
+sudo rm -rf ../first-network/shared/ca/fabric-ca-server.db
+sudo rm -rf ../first-network/shared/ca/Issue*
 
 # fabcar start
 # chaincode in chaincode/fabcar/go
@@ -149,3 +150,49 @@ peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src
 peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarbles", "{\"selector\":{\"docType\":\"marble\",\"owner\":\"tom\"}, \"use_index\":[\"_design/indexOwnerDoc\", \"indexOwner\"]}"]}'
 
 # Query the CouchDB State Database
+
+
+# Develop the chaincode in dev mode -- Start
+# * Set disable TLS of fabric network
+# * Set the peer in dev mode
+# * Start the network
+## Terminal 1 : start the chaincode
+cd ~/src/blk/foreign-trade-mine/chaincode/fabcar/go
+go build -o fabCar02
+ONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+docker exec -it\
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli bash
+cd /opt/gopath/src/github.com/chaincode/fabcar/go
+CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_ADDRESS=peer0.org1.example.com:7052 CORE_CHAINCODE_ID_NAME=fabCarGo:0 ./fabCar02
+
+## Ternimal 2 : Use the chain code
+CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+
+
+docker exec -it\
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
+  cli bash
+
+cd /opt/gopath/src/github.com/chaincode/fabcar/go
+peer chaincode install -n fabCarGo -v 0 -p github.com/chaincode/fabcar/go
+peer chaincode instantiate -n fabCarGo -v 0 -c '{"Args":[]}' -o orderer.example.com:7050 -C mychannel
+
+peer chaincode invoke \
+  -o orderer.example.com:7050 \
+  -C mychannel \
+  -n fabCarGo \
+  -c '{"function":"initLedger","Args":[]}' \
+  --waitForEvent
+# Develop the chaincode in dev mode -- End
+

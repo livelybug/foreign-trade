@@ -159,7 +159,7 @@ function networkUp() {
     generateChannelArtifacts
   fi
 
-  if [ "${TLS_ENABLED_NETWORK}" == "true" ]; then
+  if [ "${TLS_ENABLED_NETWORK}" != "false" ]; then
     sed -i 's/TLS_ENABLED_NETWORK=false/TLS_ENABLED_NETWORK=true/g' .env
   else
     sed -i 's/TLS_ENABLED_NETWORK=true/TLS_ENABLED_NETWORK=false/g' .env
@@ -378,6 +378,21 @@ function generateCerts() {
   fi
   echo
   echo "Generate CCP files for Org1 and Org2"
+
+  echo "TLS_ENABLED_NETWORK is "
+  echo "$TLS_ENABLED_NETWORK"
+  if [ "${TLS_ENABLED_NETWORK}" != "false" ]; then
+    sed -i 's/http:/https:/g' ccp-template.json
+    sed -i 's/http:/https:/g' ccp-template.yaml
+    sed -i 's/grpc:/grpcs:/g' ccp-template.json
+    sed -i 's/grpc:/grpcs:/g' ccp-template.yaml
+  else
+    sed -i 's/https:/http:/g' ccp-template.json
+    sed -i 's/https:/http:/g' ccp-template.yaml
+    sed -i 's/grpcs:/grpc:/g' ccp-template.json
+    sed -i 's/grpcs:/grpc:/g' ccp-template.yaml
+  fi
+
   ./ccp-generate.sh
 }
 
@@ -619,7 +634,7 @@ while getopts "h?c:t:d:f:s:l:i:o:anvb" opt; do
     VERBOSE=true
     ;;
   b)
-    TLS_ENABLED_NETWORK=true
+    TLS_ENABLED_NETWORK=false
     ;;
   esac
 done

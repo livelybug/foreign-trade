@@ -17,7 +17,7 @@ organizations:
     - ca.org${ORG}.example.com
 peers:
   peer0.org${ORG}.example.com:
-    url: grpcs://localhost:${P0PORT}
+    url: grpc://localhost:${P0PORT}
     tlsCACerts:
       pem: |
         ${PEERPEM}
@@ -25,7 +25,7 @@ peers:
       ssl-target-name-override: peer0.org${ORG}.example.com
       hostnameOverride: peer0.org${ORG}.example.com
   peer1.org${ORG}.example.com:
-    url: grpcs://localhost:${P1PORT}
+    url: grpc://localhost:${P1PORT}
     tlsCACerts:
       pem: |
         ${PEERPEM}
@@ -34,7 +34,7 @@ peers:
       hostnameOverride: peer1.org${ORG}.example.com
 certificateAuthorities:
   ca.org${ORG}.example.com:
-    url: https://localhost:${CAPORT}
+    url: http://localhost:${CAPORT}
     caName: ca-org${ORG}
     tlsCACerts:
       pem: |

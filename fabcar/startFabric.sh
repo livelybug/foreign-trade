@@ -6,14 +6,15 @@
 #
 # Exit on first error
 set -e
+
 TLS_ENABLED_COMMAND=${2:-true}
-if [ $TLS_ENABLED_COMMAND = true ]; then
+if [ "{$TLS_ENABLED_COMMAND}" == true ]; then
     FABRIC_COMMAND_TLS_OPTION="--tls"
-    FABRIC_NETWORK_TLS_OPTION="-b"
+    FABRIC_NETWORK_TLS_OPTION=""
     echo "TLS is enabled"
 else
     FABRIC_COMMAND_TLS_OPTION=""
-    FABRIC_NETWORK_TLS_OPTION=""
+    FABRIC_NETWORK_TLS_OPTION="-b"
     echo "TLS is disabled"
 fi
 
@@ -52,6 +53,7 @@ rm -rf ./hfc-key-store
 # launch network; create channel and join peer to channel
 cd ../first-network
 echo y | ./byfn.sh down
+echo "./byfn.sh up $FABRIC_NETWORK_TLS_OPTION -a -n -s couchdb"
 echo y | ./byfn.sh up $FABRIC_NETWORK_TLS_OPTION -a -n -s couchdb
 
 CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
