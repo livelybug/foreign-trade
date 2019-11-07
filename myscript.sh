@@ -194,5 +194,21 @@ peer chaincode invoke \
   -n fabCarGo \
   -c '{"function":"initLedger","Args":[]}' \
   --waitForEvent
+
+## Ternimal 3 : Query the chain code
+CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+chaincode_name=fabCarGo
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  cli \
+  peer chaincode invoke \
+    -o orderer.example.com:7050 \
+    -C mychannel \
+    -n "$chaincode_name" \
+    -c '{"function":"queryAllCars","Args":[]}' \
+    --waitForEvent
+
 # Develop the chaincode in dev mode -- End
 

@@ -36,6 +36,7 @@ import (
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
+	"github.com/hyperledger/fabric/core/chaincode/lib/cid"
 )
 
 // Define the Smart Contract structure
@@ -133,6 +134,11 @@ func (s *SmartContract) createCar(APIstub shim.ChaincodeStubInterface, args []st
 }
 
 func (s *SmartContract) queryAllCars(APIstub shim.ChaincodeStubInterface) sc.Response {
+    mspid, err := cid.GetMSPID(APIstub)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+    fmt.Printf("- msp ID:\n%s\n", mspid)
 
 	startKey := "CAR0"
 	endKey := "CAR999"

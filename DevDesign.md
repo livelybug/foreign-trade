@@ -14,7 +14,8 @@
 * Import data into memory wallet
 
 ##### Trade Flow
-* Importer and exporter initiated a contract
+* Exporter initiated a contract, with price
+* Importer confirms the price in the contract
 * The importer bank issues a letter of credit(LOC) to the exporter bank
 * The exporter bank validates the letter of credit
 * The seller/exporter approves the same LOC
@@ -30,9 +31,10 @@
 #### Organization Name Mapping 
 * org1 -> importer, 
 * org2 -> importer bank
-* org3 -> exporter bank
-* org4 -> logistic
-* org5 -> exporter
+* org3 -> exporter
+* org4 -> exporter bank
+* org5 -> logistic
+
 
 ### Version 2
 
