@@ -12,7 +12,7 @@ const orgName = 'org' + orgNum;
 const connetionFileName = 'connection-org' + orgNum + '.json';
 const ccpPath = path.resolve(__dirname, '..', '..', 'first-network', connetionFileName);
 
-const userName='user3';
+const userName='user5'
 
 async function main() {
     try {

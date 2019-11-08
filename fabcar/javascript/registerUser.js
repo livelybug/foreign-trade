@@ -12,7 +12,7 @@ const mspId = 'Org' + orgNum + 'MSP';
 const connetionFileName = 'connection-org' + orgNum + '.json';
 const orgName = 'org' + orgNum;
 
-const userName='user3';
+const userName='user5';
 const ccpPath = path.resolve(__dirname, '..', '..', 'first-network', connetionFileName);
 
 async function main() {

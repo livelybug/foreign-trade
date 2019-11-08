@@ -23,9 +23,7 @@ async function main() {
 
         fs.readdirSync(userWalletPath).forEach(file => {
             certNames.push(file);
-            if(certNames.length > 3) {
-                throw Error ('Incorrect certificate pack, the number of files inside should be 3!');
-            }
+            if(certNames.length > 3)  throw Error ('Incorrect certificate pack, the number of files inside should be 3!');
             console.log(file);
             const filePath = path.join(userWalletPath, file);
 
@@ -49,7 +47,6 @@ async function main() {
 
         const wallet = new InMemoryWallet();
         await wallet.import(userName, X509WalletMixin.createIdentity(mspId, cerPem, priKey));
-        console.log(await wallet.list())
 
         const gateway = new Gateway();
         await gateway.connect(ccpPath, { wallet, identity: userName, discovery: { enabled: true, asLocalhost: true } });
