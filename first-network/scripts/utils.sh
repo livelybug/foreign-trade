@@ -6,12 +6,12 @@
 
 # This is a collection of bash functions used by different scripts
 
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-PEER0_ORG3_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
-PEER0_ORG4_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
-PEER0_ORG5_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/tls/ca.crt
+ORDERER_CA=/home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+PEER0_ORG1_CA=/home/fabric/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+PEER0_ORG2_CA=/home/fabric/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+PEER0_ORG3_CA=/home/fabric/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
+PEER0_ORG4_CA=/home/fabric/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
+PEER0_ORG5_CA=/home/fabric/crypto/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/tls/ca.crt
 
 # verify the result of the end-to-end test
 verifyResult() {
@@ -26,8 +26,8 @@ verifyResult() {
 # Set OrdererOrg.Admin globals
 setOrdererGlobals() {
   CORE_PEER_LOCALMSPID="OrdererMSP"
-  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-  CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/users/Admin@example.com/msp
+  CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+  CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/ordererOrganizations/example.com/users/Admin@example.com/msp
 }
 
 setGlobals() {
@@ -36,7 +36,7 @@ setGlobals() {
   if [ $ORG -eq 1 ]; then
     CORE_PEER_LOCALMSPID="Org1MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+    CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org1.example.com:7051
     else
@@ -45,7 +45,7 @@ setGlobals() {
   elif [ $ORG -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Org2MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+    CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org2.example.com:9051
     else
@@ -55,7 +55,7 @@ setGlobals() {
   elif [ $ORG -eq 3 ]; then
     CORE_PEER_LOCALMSPID="Org3MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
+    CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org3.example.com:11051
     else
@@ -65,7 +65,7 @@ setGlobals() {
   elif [ $ORG -eq 4 ]; then
     CORE_PEER_LOCALMSPID="Org4MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG4_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
+    CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org4.example.com:13051
     else
@@ -75,7 +75,7 @@ setGlobals() {
   elif [ $ORG -eq 5 ]; then
     CORE_PEER_LOCALMSPID="Org5MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG5_CA
-    CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp
+    CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org5.example.com/users/Admin@org5.example.com/msp
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org5.example.com:15051
     else

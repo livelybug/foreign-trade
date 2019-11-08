@@ -35,7 +35,7 @@ MAX_RETRY=5
 
 CC_SRC_PATH="github.com/chaincode/chaincode_example02/go/"
 if [ "$LANGUAGE" = "node" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
+	CC_SRC_PATH="/home/chaincode/chaincode_example02/node/"
 fi
 
 echo "Channel name : "$CHANNEL_NAME

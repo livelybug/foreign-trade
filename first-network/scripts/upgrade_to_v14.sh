@@ -26,7 +26,7 @@ SYS_CHANNEL=$SYS_CHANNEL
 
 CC_SRC_PATH="github.com/chaincode/chaincode_example02/go/"
 if [ "$LANGUAGE" = "node" ]; then
-  CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
+  CC_SRC_PATH="/home/chaincode/chaincode_example02/node/"
 fi
 
 echo "System channel name : "$SYS_CHANNEL

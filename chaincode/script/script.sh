@@ -9,7 +9,7 @@ DELAY="$2"
 LANGUAGE="golang"  #'golang' OR 'node'
 COUNTER=1
 MAX_RETRY=5
-#ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/tc.com/orderers/orderer.tc.com/msp/tlscacerts/tlsca.tc.com-cert.pem
+#ORDERER_CA=/home/fabric/crypto/ordererOrganizations/tc.com/orderers/orderer.tc.com/msp/tlscacerts/tlsca.tc.com-cert.pem
 TRADE_ID="1"
 #CC_PATH="github.com/hyperledger/fabric/examples/chaincode/go/tradecontract"
 #if [ "$LANGUAGE" = "node" ]; then
@@ -35,20 +35,20 @@ setGlobals () {
 
     if [ $1 -eq 0 -o $1 -eq 1 ] ; then
         CORE_PEER_LOCALMSPID="Org1MSP"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
         if [ $1 -eq 0 ]; then
             CORE_PEER_ADDRESS=peer0.org1.example.com:7051
             #CORE_PEER_CHAINCODELISTENADDRESS=peer0.cc.tc.com:7052
         else
             CORE_PEER_ADDRESS=peer1.org1.example.com:7051
             #CORE_PEER_CHAINCODELISTENADDRESS=peer1.cc.tc.com:7052
-#			CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cc.tc.com/users/Admin@cc.tc.com/msp
+#			CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/cc.tc.com/users/Admin@cc.tc.com/msp
         fi
     elif [ $1 -eq 2 -o $1 -eq 3 ] ; then
         CORE_PEER_LOCALMSPID="Org2BANK"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/users/Admin@bank.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/bank.com/users/Admin@bank.com/msp
         if [ $1 -eq 2 ]; then
             CORE_PEER_ADDRESS=peer0.bank.com:7051
         else
@@ -56,8 +56,8 @@ setGlobals () {
         fi
     elif [ $1 -eq 4 -o $1 -eq 5 ] ; then
         CORE_PEER_LOCALMSPID="Org3SHF"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/shf.com/peers/peer0.shf.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/shf.com/users/Admin@shf.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/shf.com/peers/peer0.shf.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/shf.com/users/Admin@shf.com/msp
         if [ $1 -eq 4 ]; then
             CORE_PEER_ADDRESS=peer0.shf.com:7051
         else
@@ -67,24 +67,24 @@ setGlobals () {
      #Importer Bank
      elif [ $1 -eq 6 ] ; then
         CORE_PEER_LOCALMSPID="Org2BANK"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/users/User1@bank.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/bank.com/users/User1@bank.com/msp
         CORE_PEER_ADDRESS=peer0.bank.com:7051
         PEER=PEER2
 
      #Exporter Bank
      elif [ $1 -eq 7 ] ; then
         CORE_PEER_LOCALMSPID="Org2BANK"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.com/users/User2@bank.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/bank.com/peers/peer0.bank.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/bank.com/users/User2@bank.com/msp
         CORE_PEER_ADDRESS=peer1.bank.com:7051
         PEER=PEER3
 
      #Seller
      elif [ $1 -eq 8 ] ; then
         CORE_PEER_LOCALMSPID="Org1TC"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cc.tc.com/peers/peer0.cc.tc.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cc.tc.com/users/User2@cc.tc.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/cc.tc.com/peers/peer0.cc.tc.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/cc.tc.com/users/User2@cc.tc.com/msp
         CORE_PEER_ADDRESS=peer0.cc.tc.com:7051
         #CORE_PEER_CHAINCODELISTENADDRESS=peer0.cc.tc.com:7052
         PEER=PEER0
@@ -92,16 +92,16 @@ setGlobals () {
      #Shipper
      elif [ $1 -eq 9 ] ; then
         CORE_PEER_LOCALMSPID="Org3SHF"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/shf.com/peers/peer0.shf.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/shf.com/users/User1@shf.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/shf.com/peers/peer0.shf.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/shf.com/users/User1@shf.com/msp
         CORE_PEER_ADDRESS=peer0.shf.com:7051
         PEER=PEER5
 
     #Buyer
      elif [ $1 -eq 10 ] ; then
         CORE_PEER_LOCALMSPID="Org1TC"
-        CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cc.tc.com/peers/peer0.cc.tc.com/tls/ca.crt
-        CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/cc.tc.com/users/User1@cc.tc.com/msp
+        CORE_PEER_TLS_ROOTCERT_FILE=/home/fabric/crypto/peerOrganizations/cc.tc.com/peers/peer0.cc.tc.com/tls/ca.crt
+        CORE_PEER_MSPCONFIGPATH=/home/fabric/crypto/peerOrganizations/cc.tc.com/users/User1@cc.tc.com/msp
         CORE_PEER_ADDRESS=peer1.cc.tc.com:7051
         #CORE_PEER_CHAINCODELISTENADDRESS=peer1.cc.tc.com:7052
         PEER=PEER1

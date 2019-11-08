@@ -145,8 +145,8 @@ docker exec -it cli bash
 # Query couchdb by index
 peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go
 export CHANNEL_NAME=mychannel
-peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org0MSP.peer','Org1MSP.peer')"
-peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble1","blue","35","tom"]}'
+peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org0MSP.peer','Org1MSP.peer')"
+peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble1","blue","35","tom"]}'
 peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarbles", "{\"selector\":{\"docType\":\"marble\",\"owner\":\"tom\"}, \"use_index\":[\"_design/indexOwnerDoc\", \"indexOwner\"]}"]}'
 
 # Query the CouchDB State Database
@@ -159,7 +159,7 @@ peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarbles", "{
 ## Terminal 1 : start the chaincode
 cd ~/src/blk/foreign-trade-mine/chaincode/fabcar/go
 go build -o fabCar02
-ONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+ONFIG_ROOT=/home/fabric
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 docker exec -it\
@@ -168,11 +168,11 @@ docker exec -it\
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
-cd /opt/gopath/src/github.com/chaincode/fabcar/go
+cd /home/chaincode/fabcar/go
 CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_ADDRESS=peer0.org1.example.com:7052 CORE_CHAINCODE_ID_NAME=fabCarGo:0 ./fabCar02
 
 ## Ternimal 2 : Use the chain code
-CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+CONFIG_ROOT=/home/fabric
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
@@ -184,7 +184,7 @@ docker exec -it\
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
 
-cd /opt/gopath/src/github.com/chaincode/fabcar/go
+cd /home/chaincode/fabcar/go
 peer chaincode install -n fabCarGo -v 0 -p github.com/chaincode/fabcar/go
 peer chaincode instantiate -n fabCarGo -v 0 -c '{"Args":[]}' -o orderer.example.com:7050 -C mychannel
 
@@ -196,7 +196,7 @@ peer chaincode invoke \
   --waitForEvent
 
 ## Ternimal 3 : Query the chain code
-CONFIG_ROOT=/opt/gopath/src/github.com/hyperledger/fabric/peer
+CONFIG_ROOT=/home/fabric
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 chaincode_name=fabCarGo
 docker exec \
