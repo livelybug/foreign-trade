@@ -158,8 +158,9 @@ peer chaincode query -C $CHANNEL_NAME -n marbles -c '{"Args":["queryMarbles", "{
 # * Start the network
 ## Terminal 1 : start the chaincode
 cd ~/src/blk/foreign-trade-mine/chaincode/fabcar/go
+rm -f fabCar02
 go build -o fabCar02
-ONFIG_ROOT=/home/fabric
+CONFIG_ROOT=/home/fabric
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 docker exec -it\
@@ -168,7 +169,7 @@ docker exec -it\
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
-cd /home/chaincode/fabcar/go
+cd /opt/gopath/src/github.com/chaincode/fabcar/go
 CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_ADDRESS=peer0.org1.example.com:7052 CORE_CHAINCODE_ID_NAME=fabCarGo:0 ./fabCar02
 
 ## Ternimal 2 : Use the chain code
@@ -176,7 +177,6 @@ CONFIG_ROOT=/home/fabric
 ORG1_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 
-
 docker exec -it\
   -e CORE_PEER_LOCALMSPID=Org1MSP \
   -e CORE_PEER_ADDRESS=peer0.org1.example.com:7051 \
@@ -184,7 +184,7 @@ docker exec -it\
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
 
-cd /home/chaincode/fabcar/go
+cd /opt/gopath/src/github.com/chaincode/fabcar/go
 peer chaincode install -n fabCarGo -v 0 -p github.com/chaincode/fabcar/go
 peer chaincode instantiate -n fabCarGo -v 0 -c '{"Args":[]}' -o orderer.example.com:7050 -C mychannel
 

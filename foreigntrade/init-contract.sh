@@ -7,7 +7,7 @@ export MSYS_NO_PATHCONV=1
 starttime=$(date +%s)
 CC_SRC_LANGUAGE=javascript
 CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-CC_SRC_PATH=/home/chaincode/coffeebean4
+CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
 
 # clean the keystore
 rm -rf ./hfc-key-store

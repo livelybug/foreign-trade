@@ -17,13 +17,13 @@ if [ "$CC_SRC_LANGUAGE" = "go" -o "$CC_SRC_LANGUAGE" = "golang"  ]; then
 	CC_SRC_PATH=github.com/chaincode/fabcar/go
 elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
 	CC_RUNTIME_LANGUAGE=java
-	CC_SRC_PATH=/home/chaincode/fabcar/java
+	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/java
 elif [ "$CC_SRC_LANGUAGE" = "javascript" ]; then
 	CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-	CC_SRC_PATH=/home/chaincode/fabcar/javascript
+	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/javascript
 elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then
 	CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-	CC_SRC_PATH=/home/chaincode/fabcar/typescript
+	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/typescript
 	echo Compiling TypeScript code into JavaScript ...
 	pushd ../chaincode/fabcar/typescript
 	npm install
@@ -107,7 +107,7 @@ docker exec \
 docker exec -it cli bash
 
 CC_RUNTIME_LANGUAGE=node
-CC_SRC_PATH=/home/chaincode/coffeebean4
+CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
 CONFIG_ROOT=/home/fabric
 ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 ORG1_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt

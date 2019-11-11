@@ -7,7 +7,7 @@ export MSYS_NO_PATHCONV=1
 starttime=$(date +%s)
 CC_SRC_LANGUAGE=go
 CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-CC_SRC_PATH=/home/chaincode/coffeebean4
+CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
 
 ## Terminal 1 : start the chaincode
 CHAINCODE_FOLDER=foreigntrade
@@ -31,7 +31,7 @@ CHAINCODE_FOLDER=foreigntrade
 CHAINCODE_NAME=foreignTrade
 CHANNEL_NAME=mychannel
 CHAINCODE_VERSION=0
-cd /home/chaincode/${CHAINCODE_FOLDER}
+cd /opt/gopath/src/github.com/chaincode/${CHAINCODE_FOLDER}
 CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_ADDRESS=peer0.org1.example.com:7052 CORE_CHAINCODE_ID_NAME=${CHAINCODE_NAME}:$CHAINCODE_VERSION ./${CHAINCODE_NAME}
 
 ## Ternimal 2 : Instantiate the chain code
@@ -50,9 +50,9 @@ CHAINCODE_FOLDER=foreigntrade
 CHAINCODE_NAME=foreignTrade
 CHAINCODE_VERSION=0
 CHANNEL_NAME=mychannel
-cd /home/chaincode/${CHAINCODE_FOLDER}
+cd /opt/gopath/src/github.com/chaincode/${CHAINCODE_FOLDER}
 peer chaincode install -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -p github.com/chaincode/${CHAINCODE_FOLDER}
-TRADE_ID=001
+TRADE_ID=1
 argsstr='{"Args":["init","'"$TRADE_ID"'","TC_B_1","TC_S_1","SKU001","10","1"]}'
 peer chaincode instantiate -n ${CHAINCODE_NAME} -v ${CHAINCODE_VERSION} -c ${argsstr} -o orderer.example.com:7050 -C mychannel
 
