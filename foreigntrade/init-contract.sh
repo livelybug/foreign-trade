@@ -6,8 +6,20 @@ export MSYS_NO_PATHCONV=1
 
 starttime=$(date +%s)
 CC_SRC_LANGUAGE=javascript
-CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
+CC_RUNTIME_LANGUAGE=golang # chaincode runtime language is node.js
+CC_SRC_PATH=github.com/fabcar/go
+TLS_ENABLED_COMMAND=true
+chaincode_name=FabcarGo
+
+if [ "{$TLS_ENABLED_COMMAND}" == true ]; then
+    FABRIC_COMMAND_TLS_OPTION="--tls"
+    FABRIC_NETWORK_TLS_OPTION=""
+    echo "TLS is enabled"
+else
+    FABRIC_COMMAND_TLS_OPTION=""
+    FABRIC_NETWORK_TLS_OPTION="-b"
+    echo "TLS is disabled"
+fi
 
 # clean the keystore
 rm -rf ./hfc-key-store
@@ -25,8 +37,6 @@ ORG5_MSPCONFIGPATH=${CONFIG_ROOT}/crypto/peerOrganizations/org5.example.com/user
 ORG5_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/tls/ca.crt
 ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 set -x
-
-chaincode_name=coffeebean4
 
 echo "Installing smart contract on peer0.org1.example.com"
 docker exec \
@@ -106,13 +116,41 @@ docker exec \
     -v 1.0 \
     -c '{"Args":[]}' \
     -P "AND('Org1MSP.member','Org2MSP.member')" \
-    --tls \
+    $FABRIC_COMMAND_TLS_OPTION \
     --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
     --peerAddresses peer0.org1.example.com:7051 \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
 
 echo "Waiting for instantiation request to be committed ..."
 sleep 10
+
+echo "Waiting for instantiation request to be committed ..."
+sleep 10
+
+echo "Submitting initLedger transaction to smart contract on mychannel"
+echo "The transaction is sent to all of the peers so that chaincode is built before receiving the following requests"
+docker exec \
+  -e CORE_PEER_LOCALMSPID=Org1MSP \
+  -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
+  cli \
+  peer chaincode invoke \
+    -o orderer.example.com:7050 \
+    -C mychannel \
+    -n "$chaincode_name" \
+    -c '{"function":"initLedger","Args":[]}' \
+    --waitForEvent \
+    $FABRIC_COMMAND_TLS_OPTION \
+    --cafile ${ORDERER_TLS_ROOTCERT_FILE} \
+    --peerAddresses peer0.org1.example.com:7051 \
+    --peerAddresses peer0.org2.example.com:9051 \
+    --peerAddresses peer0.org3.example.com:11051 \
+    --peerAddresses peer0.org4.example.com:13051 \
+    --peerAddresses peer0.org5.example.com:15051 \
+    --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG2_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG3_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG4_TLS_ROOTCERT_FILE} \
+    --tlsRootCertFiles ${ORG5_TLS_ROOTCERT_FILE}
 
 echo "Done"
 set +x

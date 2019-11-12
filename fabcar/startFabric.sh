@@ -25,16 +25,16 @@ CC_SRC_LANGUAGE=${1:-"go"}
 CC_SRC_LANGUAGE=`echo "$CC_SRC_LANGUAGE" | tr [:upper:] [:lower:]`
 if [ "$CC_SRC_LANGUAGE" = "go" -o "$CC_SRC_LANGUAGE" = "golang"  ]; then
 	CC_RUNTIME_LANGUAGE=golang
-	CC_SRC_PATH=github.com/chaincode/fabcar/go
+	CC_SRC_PATH=github.com/fabcar/go
 elif [ "$CC_SRC_LANGUAGE" = "java" ]; then
 	CC_RUNTIME_LANGUAGE=java
-	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/java
+	CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/java
 elif [ "$CC_SRC_LANGUAGE" = "javascript" ]; then
 	CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/javascript
+	CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/javascript
 elif [ "$CC_SRC_LANGUAGE" = "typescript" ]; then
 	CC_RUNTIME_LANGUAGE=node # chaincode runtime language is node.js
-	CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/fabcar/typescript
+	CC_SRC_PATH=/opt/gopath/src/github.com/fabcar/typescript
 	echo Compiling TypeScript code into JavaScript ...
 	pushd ../chaincode/fabcar/typescript
 	npm install
@@ -71,7 +71,7 @@ ORDERER_TLS_ROOTCERT_FILE=${CONFIG_ROOT}/crypto/ordererOrganizations/example.com
 set -x
 
 #CC_RUNTIME_LANGUAGE=node
-#CC_SRC_PATH=/opt/gopath/src/github.com/chaincode/coffeebean4
+#CC_SRC_PATH=/opt/gopath/src/github.com/coffeebean4
 chaincode_name=fabcar
 
 echo "Installing smart contract on peer0.org1.example.com"
@@ -158,7 +158,7 @@ docker exec \
     --tlsRootCertFiles ${ORG1_TLS_ROOTCERT_FILE}
 
 echo "Waiting for instantiation request to be committed ..."
-sleep 10
+sleep 20
 
 echo "Submitting initLedger transaction to smart contract on mychannel"
 echo "The transaction is sent to all of the peers so that chaincode is built before receiving the following requests"

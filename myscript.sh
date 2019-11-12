@@ -3,6 +3,7 @@ cd /home/burt/src/blk/foreign-trade-mine/first-network/
 ./byfn.sh down
 docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
+docker rm -f $(docker ps -aq) && docker rmi -f $(docker images | grep dev | awk '{print $3}') && docker volume prune
 sudo rm -rf ../first-network/shared/ca/fabric-ca-server.db
 sudo rm -rf ../first-network/shared/ca/Issue*
 
@@ -143,7 +144,7 @@ docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
 ./byfn.sh up -c mychannel -s couchdb
 docker exec -it cli bash
 # Query couchdb by index
-peer chaincode install -n marbles -v 1.0 -p github.com/chaincode/marbles02/go
+peer chaincode install -n marbles -v 1.0 -p github.com/marbles02/go
 export CHANNEL_NAME=mychannel
 peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org0MSP.peer','Org1MSP.peer')"
 peer chaincode invoke -o orderer.example.com:7050 --tls --cafile /home/fabric/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C $CHANNEL_NAME -n marbles -c '{"Args":["initMarble","marble1","blue","35","tom"]}'
@@ -169,7 +170,7 @@ docker exec -it\
   -e CORE_PEER_MSPCONFIGPATH=${ORG1_MSPCONFIGPATH} \
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
-cd /opt/gopath/src/github.com/chaincode/fabcar/go
+cd /opt/gopath/src/github.com/fabcar/go
 CORE_CHAINCODE_LOGLEVEL=debug CORE_PEER_ADDRESS=peer0.org1.example.com:7052 CORE_CHAINCODE_ID_NAME=fabCarGo:0 ./fabCar02
 
 ## Ternimal 2 : Use the chain code
@@ -184,8 +185,8 @@ docker exec -it\
   -e CORE_PEER_TLS_ROOTCERT_FILE=${ORG1_TLS_ROOTCERT_FILE} \
   cli bash
 
-cd /opt/gopath/src/github.com/chaincode/fabcar/go
-peer chaincode install -n fabCarGo -v 0 -p github.com/chaincode/fabcar/go
+cd /opt/gopath/src/github.com/fabcar/go
+peer chaincode install -n fabCarGo -v 0 -p github.com/fabcar/go
 peer chaincode instantiate -n fabCarGo -v 0 -c '{"Args":[]}' -o orderer.example.com:7050 -C mychannel
 
 peer chaincode invoke \
