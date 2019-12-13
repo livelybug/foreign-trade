@@ -6,6 +6,7 @@ docker rmi -f $(docker images | grep fabcar | awk '{print $3}')
 docker rm -f $(docker ps -aq) && docker rmi -f $(docker images | grep dev | awk '{print $3}') && docker volume prune
 sudo rm -rf ../first-network/shared/ca/fabric-ca-server.db
 sudo rm -rf ../first-network/shared/ca/Issue*
+ps -ef | grep CORE_PEER_LOCALMSPID | awk '{print $2}' | xargs kill -9 $1
 
 # fabcar start
 # chaincode in chaincode/fabcar/go
