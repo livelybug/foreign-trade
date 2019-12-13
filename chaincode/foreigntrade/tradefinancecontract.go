@@ -51,41 +51,34 @@ type trade struct {
 var importerId, importerBankId, exporterId, exporterBankId, logisticId = "Org1MSP", "Org2MSP", "Org3MSP", "Org4MSP", "Org5MSP";
 
 func (t *TradeContract) Init(stub shim.ChaincodeStubInterface) pb.Response {
+    fmt.Println("Chaincode instantiated.")
 	return setupTrade(stub)
 }
 
 func (t *TradeContract) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
-	if function == "acceptQuotation" {
+	fmt.Println("Chaincode invoked.")
+    if function == "acceptQuotation" {
 		return t.acceptQuotation(stub, args)
 	} else if function == "createLOC" {
 		return t.createLOC(stub, args)
 	} else if function == "validateLOC" {
-
 		return t.approveLOC(stub, args)
 	} else if function == "approveLOC" {
-
 		return t.approveLOC(stub, args)
 	} else if function == "initiateShipment" {
-
 		return t.initiateShipment(stub, args)
 	} else if function == "deliverGoods" {
-
 		return t.init_BOL(stub, args)
 	} else if function == "shipmentDelivered" {
-
 		return t.endorse_BOL(stub, args)
 	} else if function == "makePayment" {
-
 		return t.makePayment(stub, args)
 	} else if function == "resetState" {
-
 		return t.resetState(stub, args)
 	} else if function == "query" {
-
 		return t.query(stub, args)
 	}
-
 	return shim.Error("Invalid function name")
 }
 

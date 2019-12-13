@@ -35,9 +35,13 @@
 * org4 -> exporter bank
 * org5 -> logistic
 
+#### Role Structure
+* CA server admin
+    - Org1 admin, Org2 admin 
+        + Human users, peers, ordering services, client applications 
 
 ### Version 2
-
+* Add root CA, every org's CA enrolls as intermediate CA.
 * Use feature "Organizational Units" to separate banks for importers and exporters 
 
 ### Version 3
