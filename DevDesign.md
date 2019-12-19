@@ -21,7 +21,7 @@
 * The seller/exporter approves the same LOC
 * The seller/exporter initiates the shipment
 * The shipping firm scans the goods and prepare the bill of lading. Starts the shipment.
-* The buyer receives the goods and endorses the BOL
+* The buyer receives the goods and endorses the bill of landing(BOL)
 * Payment is made to the seller
 
 ##### Home Page
