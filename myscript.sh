@@ -8,13 +8,27 @@ sudo rm -rf ../first-network/shared/ca/fabric-ca-server.db
 sudo rm -rf ../first-network/shared/ca/Issue*
 ps -ef | grep CORE_PEER_LOCALMSPID | awk '{print $2}' | xargs kill -9 $1
 
-# fabcar start
-# chaincode in chaincode/fabcar/go
+# Foreigntrade start
+# chaincode in chaincode/foreigntrade
 cd ../fabcar/
 ./startFabric.sh javascript false &
 
+cd ../foreigntrade/javascript
+rm -rf wallet/*
+npm install
+node enrollAdmin.js
+node registerUser.js
+node query.js
+# fabcar end
+
+
+# fabcar start
+# chaincode in chaincode/fabcar/go
+#cd ../../fabcar/
+#./startFabric.sh javascript false &
+
 cd javascript
-rm -rf wallet/
+rm -rf wallet/*
 npm install
 node enrollAdmin.js
 node registerUser.js

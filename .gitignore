@@ -9,3 +9,6 @@ frontend/my-app/node_modules
 frontend/my-app/public
 frontend/my-app/temp.log
 frontend/my-app/.idea
+foreigntrade/javascript/node_modules
+foreigntrade/javascript/temp/*
+foreigntrade/javascript/wallet/*

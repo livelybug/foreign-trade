@@ -27,11 +27,11 @@ node registerUser.js
 ```bash
 # Goto repository root
 cd fabcar/javascript/wallet/org5/user5
-# Compress the 3 files into a zip file without folders. I saved it as "user5,zip" for latter reference
+# Compress the 3 files into a zip file without folders. I saved it as "user5.zip" for latter reference
 # My files names: a7c98bad3a266d674e1eba99324081213c54023afd46bdac9983a90eba542d8b-priv  a7c98bad3a266d674e1eba99324081213c54023afd46bdac9983a90eba542d8b-pub  user5
 # Yours maybe different
 ```
 
 #### Start Electron Client
 * Please refer to the [client's readme](frontend/my-app/README.md)
-* Use the "user5,zip" created above to login
+* Use the "user5.zip" created above to login

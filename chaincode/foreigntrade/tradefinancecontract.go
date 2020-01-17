@@ -121,6 +121,18 @@ func setupTrade(stub shim.ChaincodeStubInterface) pb.Response {
 }
 
 func (t *TradeContract) acceptQuotation(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	cert, err := cid.GetX509Certificate(stub)
+	if err != nil {
+		fmt.Printf("Faile to get X509 certificate, error: %v", err)
+		return shim.Error(err.Error())
+	}
+	str, err := json.Marshal(cert)
+	if err != nil {
+		fmt.Printf("Fail to marshal certificate, error: %v", err)
+		return shim.Error(err.Error())
+	}
+	fmt.Println(string(str))
+
 	mspid, err := cid.GetMSPID(stub)
 	if err != nil {
 		return shim.Error(err.Error())
@@ -480,6 +492,18 @@ func (t *TradeContract) resetState(stub shim.ChaincodeStubInterface, args []stri
 }
 
 func (t *TradeContract) query(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	cert, err1 := cid.GetX509Certificate(stub)
+	if err1 != nil {
+		fmt.Printf("Faile to get X509 certificate, error: %v", err1)
+		return shim.Error(err1.Error())
+	}
+	str, err1 := json.Marshal(cert)
+	if err1 != nil {
+		fmt.Printf("Fail to marshal certificate, error: %v", err1)
+		return shim.Error(err1.Error())
+	}
+	fmt.Println(string(str))
+
 	var A string // Entities
 	var err error
 
