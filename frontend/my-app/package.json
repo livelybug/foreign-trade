@@ -65,7 +65,7 @@
     "fabric-network": "^1.4.4",
     "fontawesome": "^4.7.2",
     "grpc": "^1.24.1",
-    "jszip": "^3.2.2",
+    "jszip": "^3.7.0",
     "vue": "^2.4.2",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
